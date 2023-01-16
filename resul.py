@@ -7,7 +7,7 @@ db = client.myworkdiary
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('resul.html')
 
 @app.route("/api/result", methods=["GET"])
 def result_get():
