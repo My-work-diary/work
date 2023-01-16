@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>나의 운동 일지</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Poor Story', cursive;
+
+
+        }
+
+        h1 {
+
+            width: 300px;
+            margin: 30px auto 0px;
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .input {
+
+
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+
+        }
+
+        .input div {
+            margin: 0px 3rem 4rem;
+
+
+        }
+
+        .container {
+            font-weight: bold;
+        }
+        .input > div >button{
+            margin-top: 46.625px;
+        }
+
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+
+
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+
+        <a href="#"
+           class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+
+            홈으로
+            <!--            <img src="https://img.icons8.com/ios-filled/512/flex-biceps.png"width="30" height="30">-->
+        </a>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 link-dark">운동 목표 설정</a></li>
+            <li><a href="/templates/action.html" class="nav-link px-2 link-dark">운동 결과 입력</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">성적표</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">구씨네</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <button type="button" class="btn">Login</button>
+            <button type="button" class="btn">Sign-up</button>
+        </div>
+    </header>
+</div>
+
+
+<h1>운동목표 정하기</h1>
+
+<div class="input">
+    <div class="col-md-5">
+        <label for="inputKind" class="form-label">운동종류 선택</label>
+        <input type="text" class="form-control" id="inputKind">
+    </div>
+
+
+    <div class="col-md-1">
+        <label for="inputCount" class="form-label">횟수</label>
+        <input type="number" class="form-control" id="inputCount">
+    </div>
+    <div class="col-md-1">
+        <label for="inputSet" class="form-label">세트수</label>
+        <input type="number" class="form-control" id="inputSet">
+
+    </div>
+    <div class="col-md-1">
+    <button type="submit" class="btn btn-outline-dark">입력</button>
+    </div>
+
+</div>
+
+<hr>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">운동 종류</th>
+        <th scope="col">횟수</th>
+        <th scope="col">세트수</th>
+    </tr>
+    </thead>
+    <tbody id="body">
+    <tr>
+        <th scope="row">1</th>
+        <td>푸쉬업</td>
+        <td>20회</td>
+        <td>3세트</td>
+    </tr>
+    <tr>
+        <th scope="row">2</th>
+        <td>스쿼트</td>
+        <td>120회</td>
+        <td>20세트</td>
+    </tr>
+    <tr>
+        <th scope="row">4</th>
+        <td>풀업</td>
+        <td>50회</td>
+        <td>9세트</td>
+    </tr>
+    <tr>
+        <th scope="row">5</th>
+        <td>런지</td>
+        <td>1200회</td>
+        <td>200세트</td>
+    </tr>
+
+    </tbody>
+</table>
+
+
+</body>
+
+
+</html>
