@@ -1,4 +1,4 @@
-function work() {
+function squat() {
     $.ajax({
         type: 'GET',
         url: '/youtube',

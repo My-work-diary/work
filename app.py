@@ -1,15 +1,34 @@
 from flask import Flask, render_template, request, jsonify
+
 app = Flask(__name__)
 
 from pymongo import MongoClient
+
 client = MongoClient('mongodb+srv://test:sparta@cluster0.qpskyvt.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.myworkdiary
 
-@app.route('/')
-def home():
+
+@app.route('/video')
+def video():
     return render_template('video.html')
 
-#youtube 링크 post
+
+@app.route('/main')
+def main():
+    return render_template('main.html')
+
+
+@app.route('/')
+def home():
+    return render_template('cover.html')
+
+
+@app.route('/action')
+def action():
+    return render_template('action.html')
+
+
+# youtube 링크 post
 @app.route("/youtube", methods=["POST"])
 def youtube_post():
     url_receive = request.form['url_give']
@@ -21,9 +40,10 @@ def youtube_post():
     }
     db.workVedio.insert_one(doc)
 
-    return jsonify({'msg':'저장 완료!'})
+    return jsonify({'msg': '저장 완료!'})
 
-#운동 영상 보여주기
+
+# 운동 영상 보여주기
 @app.route("/youtube", methods=["GET"])
 def youtube_get():
     youtube_list = list(db.workVedio.find({}, {'_id': False}))

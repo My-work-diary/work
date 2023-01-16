@@ -1,20 +1,29 @@
 @charset "utf-8";
 .save {
     width: 500px;
-    height: 200px;
+    height: 230px;
 
     border: 1px solid gray;
     border-radius: 5px;
 
-    margin: auto;
-    padding: 10px;
+    margin: 30px auto 0px;
+    padding: 20px;
+
 }
+.mybtns > button:hover {
+    border: 2px solid black;
+    transition: 0.5s;
+}
+
 .btn-post {
+
     margin-top: 20px;
     padding: 5px 25px;
     border-radius: 50px;
 }
+
 .page4-wrap {
+
     width: 1080px;
     margin: auto;
 }
@@ -27,7 +36,18 @@
 }
 
 .wrap-btn {
-    margin-top: 20px;
+    margin: 20px auto 0px;
+
+
+    width: 800px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrap-btn > button {
+    margin-right: 10px;
 }
 
 .youtube {
@@ -36,7 +56,9 @@
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
 .youtube > iframe {
+
     margin: 10px;
     width: 335px;
     height: 250px;
