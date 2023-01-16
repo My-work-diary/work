@@ -5,8 +5,8 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://test:sparta@cluster0.qpskyvt.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.myworkdiary
 
-@app.route('/')
-def home():
+@app.route('/resul')
+def resul():
     return render_template('resul.html')
 
 @app.route("/api/result", methods=["GET"])
