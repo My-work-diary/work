@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../static/styles.css">
+    <script src="../static/main.js"></script>
+</head>
+<body>
+
+
+<div class="page4-wrap">
+
+
+    <div class="main-title">
+        <h1>구씨의 운동법</h1>
+
+        <div class="save">
+            <div class="form-floating mb-3">
+                <input id="url" type="email" class="form-control" placeholder="name@example.com">
+                <label>youtube URL</label>
+            </div>
+
+            <select class="form-select" id="workName">
+                <option selected>-- 운동 선택하기 --</option>
+                <option value="squat">스쿼트</option>
+                <option value="lunge">런지</option>
+                <option value="pull">턱걸이</option>
+                <option value="push">팔굽혀 펴기</option>
+                <option value="sit">윗몸 일으키기</option>
+            </select>
+
+            <div class="mybtns">
+                <button onclick="posting()" type="button" class="btn-post btn-dark">저장하기</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="wrap-btn">
+        <button type="button" onclick="squat()" id="btn-squat" class="btn btn-dark mybutton explain-1">스쿼트 영상 보기</button>
+        <button type="button" onclick="lunge()" id="btn-lunge" class="btn btn-dark mybutton explain-1">런지 영상 보기</button>
+        <button type="button" onclick="pulls()" id="btn-pulls" class="btn btn-dark mybutton explain-1">턱걸이 영상 보기</button>
+        <button type="button" onclick="pushs()" id="btn-pushs" class="btn btn-dark mybutton explain-1">팔굽혀 펴기 영상 보기</button>
+        <button type="button" onclick="sit()" id="btn-sit" class="btn btn-dark mybutton explain-1">윗몸 일으키기 영상 보기</button>
+    </div>
+
+    <div class="video-wrap">
+        <div class="youtube" id="show">
+
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
