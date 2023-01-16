@@ -1,18 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>나의 운동 일지</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+            integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+            crossorigin="anonymous"></script>
     <style>
         * {
             font-family: 'Poor Story', cursive;
-
-
         }
 
         h1 {
@@ -24,7 +30,7 @@
             font-weight: bold;
         }
 
-        .input {
+        .input_result {
 
 
             margin-top: 20px;
@@ -36,7 +42,7 @@
 
         }
 
-        .input div {
+        .input_result div {
             margin: 0px 3rem 4rem;
 
 
@@ -45,25 +51,92 @@
         .container {
             font-weight: bold;
         }
-        .input > div >button{
-            margin-top: 46.625px;
+
+        .input_result > div > button {
+            margin-top: 30px;
         }
 
 
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
-        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
-crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.3.min.js"
-        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
+    <title>운동 결과 입력</title>
+    <script>
+        $(document).ready(function () {
+            show_result();
+        });
 
+        function save_result() {
+            let day = $('#day').val()
+            let title = $('#title').val()
+            let result_num = $('#result_num').val()
+            let result_set = $('#result_set').val()
+
+            console.log(day)
+
+            $.ajax({
+                type: "POST",
+                url: "/result/show",
+                data: {day_give: day, title_give: title, result_num_give: result_num, result_set_give: result_set},
+                success: function (response) {
+                    let check = response['goal_check']
+                    if (check == 1) {
+                        alert("입력 완료")
+                        window.location.reload()
+                    } else if (check == 0) {
+                        alert("해당하는 요일과 운동명이 없습니다.")
+                    }
+                }
+            });
+        }
+
+        function show_result() {
+            $.ajax({
+                type: "GET",
+                url: "/result/show",
+                data: {},
+                success: function (response) {
+                    let rows = response['results']
+                    for (let i = 0; i < rows.length; i++) {
+                        let num = rows[i]['num']
+                        let day = rows[i]['day']
+                        let title = rows[i]['title']
+                        let result_num = rows[i]['result_num']
+                        let result_set = rows[i]['result_set']
+                        let temp_html = ``
+                        if (result_num > 0) {
+                            // temp_html = `<li>
+                            //                 ${title}  ${result_num}회 ${result_set}세트
+                            //                 <button onClick="delete_result(${num})" type="button" >삭제</button>
+                            //     <!--        <button onClick="update_bucket(${num})" type="button" >수정</button>-->
+                            //             </li>   `
+                            temp_html = `<tr>
+                                             <th scope="row"> ${day} </th>
+                                             <td> ${title} </td>
+                                             <td> ${result_num}회 </td>
+                                             <td> ${result_set}세트 </td>
+                                         </tr>
+                            `
+                        }
+
+                        $('#body').append(temp_html)
+                    }
+                }
+            });
+        }
+
+        function delete_result(num) {
+            $.ajax({
+                type: "POST",
+                url: "/goal/delete",
+                data: {num_give: num},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            });
+        }
+
+    </script>
 </head>
 <body>
 
@@ -71,7 +144,7 @@ crossorigin="anonymous"></script>
 <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 
-        <a href="#"
+        <a href="http://localhost:5000/"
            class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
 
             홈으로
@@ -79,10 +152,10 @@ crossorigin="anonymous"></script>
         </a>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="../templates/main.html" class="nav-link px-2 link-dark">운동 목표 설정</a></li>
-            <li><a href="../templates/action.html" class="nav-link px-2 link-dark">운동 결과 입력</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">성적표</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">구씨네</a></li>
+            <li><a href="http://localhost:5000/main" class="nav-link px-2 link-dark">운동 목표 설정</a></li>
+            <li><a href="http://localhost:5000/result" class="nav-link px-2 link-dark">운동 결과 입력</a></li>
+            <li><a href="http://localhost:5000/resul" class="nav-link px-2 link-dark">성적표</a></li>
+            <li><a href="http://localhost:5000/video" class="nav-link px-2 link-dark">구씨네</a></li>
         </ul>
 
         <div class="col-md-3 text-end">
@@ -93,71 +166,63 @@ crossorigin="anonymous"></script>
 </div>
 
 
-<h1>운동결과 입력</h1>
+<h1>운동 결과 입력</h1>
 
-<div class="input">
-    <div class="col-md-5">
-        <label for="inputKind" class="form-label">운동종류 선택</label>
-        <input type="text" class="form-control" id="inputKind">
+<div class="input_result">
+    <div class="col-md-2">
+        <label for="day" class="form-label">요일 선택</label>
+        <select id="day" class="form-control">
+            <option value="월요일">월요일</option>
+            <option value="화요일">화요일</option>
+            <option value="수요일">수요일</option>
+            <option value="목요일">목요일</option>
+            <option value="금요일">금요일</option>
+            <option value="토요일">토요일</option>
+            <option value="일요일">일요일</option>
+        </select>
     </div>
 
+    <div class="col-md-2">
+        <label for="title" class="form-label">운동종류 선택</label>
+        <select id="title" class="form-control">
+            <option value="스쿼트">스쿼트</option>
+            <option value="런지">런지</option>
+            <option value="풀업">풀업</option>
+            <option value="푸쉬업">푸쉬업</option>
+            <option value="윗몸 일으키기">윗몸 일으키기</option>
+        </select>
+    </div>
 
     <div class="col-md-1">
-        <label for="inputCount" class="form-label">횟수</label>
-        <input type="number" class="form-control" id="inputCount">
+        <label for="result_num" class="form-label">횟수</label>
+        <input type="number" class="form-control" id="result_num"/>
     </div>
-    <div class="col-md-1">
-        <label for="inputSet" class="form-label">세트수</label>
-        <input type="number" class="form-control" id="inputSet">
 
-    </div>
     <div class="col-md-1">
-    <button type="submit" class="btn btn-outline-dark">입력</button>
+        <label for="result_set" class="form-label">세트수</label>
+        <input type="number" class="form-control" id="result_set"/>
+    </div>
+
+    <div class="col-md-1">
+        <button class="btn btn-outline-dark" onclick="save_result()"> 등록</button>
     </div>
 
 </div>
-
-<hr>
+<!--        </div>-->
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">#</th>
+        <th scope="col">요일</th>
         <th scope="col">운동 종류</th>
         <th scope="col">횟수</th>
         <th scope="col">세트수</th>
     </tr>
     </thead>
     <tbody id="body">
-    <tr>
-        <th scope="row">1</th>
-        <td>푸쉬업</td>
-        <td>20회</td>
-        <td>3세트</td>
-    </tr>
-    <tr>
-        <th scope="row">2</th>
-        <td>스쿼트</td>
-        <td>120회</td>
-        <td>20세트</td>
-    </tr>
-    <tr>
-        <th scope="row">4</th>
-        <td>풀업</td>
-        <td>50회</td>
-        <td>9세트</td>
-    </tr>
-    <tr>
-        <th scope="row">5</th>
-        <td>런지</td>
-        <td>1200회</td>
-        <td>200세트</td>
-    </tr>
-
+    <div class="post_goal" id="goal_list">
+    </div>
     </tbody>
 </table>
 
-
 </body>
-
-
 </html>
