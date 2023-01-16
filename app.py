@@ -12,6 +12,12 @@ db = client.myworkdiary
 def video():
     return render_template('video.html')
 
+@app.route("/api/result", methods=["GET"])
+def result_get():
+    result_list = list(db.worklist.find({}, {'_id': False}))
+
+    return jsonify({'result': result_list})
+
 
 @app.route('/main')
 def main():
@@ -26,6 +32,54 @@ def home():
 @app.route('/action')
 def action():
     return render_template('action.html')
+
+@app.route('/result')
+def result():
+    return render_template('result.html')
+
+@app.route("/goal", methods=["POST"])
+def goal_post():
+    title_receive = request.form['title_give']
+    goal_num_receive = request.form['goal_num_give']
+    goal_set_receive = request.form['goal_set_give']
+    day_receive = request.form['day_give']
+
+
+    goal_list = list(db.worklist.find({}, {'_id': False}))
+    count= len(goal_list)+1
+
+    doc= {
+        'num':count,
+        'day':day_receive,
+        'title': title_receive,
+        'goal_num': int(goal_num_receive),
+        'goal_set':int(goal_set_receive),
+        'result_num':0,
+        'result_set':0
+    }
+    find = db.worklist.find_one({'day':day_receive,'title':title_receive})
+    check =0;
+    if(find is None):
+        check =1;
+        db.worklist.insert_one(doc)
+    else:
+        check=0;
+
+    return jsonify({'check': check})
+@app.route("/goal", methods=["GET"])
+def goal_get():
+    goal_list = list(db.worklist.find({}, {'_id': False}))
+    return jsonify({'goals': goal_list})
+
+@app.route("/goal/delete", methods=["POST"])
+def bucket_cancel():
+    num_receive = request.form['num_give']
+
+    print(num_receive)
+    db.worklist.delete_one({'num': int(num_receive)})
+    return jsonify({'msg': '삭제 완료'})
+
+
 
 
 # youtube 링크 post
@@ -49,6 +103,8 @@ def youtube_get():
     youtube_list = list(db.workVedio.find({}, {'_id': False}))
 
     return jsonify({'videos': youtube_list})
+
+
 
 
 if __name__ == '__main__':
