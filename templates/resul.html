@@ -1,20 +1,16 @@
-<!DOCTYPE html>
-<html lang="en" >
+<!doctype html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>나의 운동 일지</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
 
     <style>
-     * {
-     font-family: 'Poor Story', cursive;
+        * {
+            font-family: 'Poor Story', cursive;
 
 
         }
@@ -49,111 +45,100 @@
         .container {
             font-weight: bold;
         }
-        .input > div >button{
+
+        .input > div > button {
             margin-top: 46.625px;
         }
-        .good {
-            background-color: green;
-        }
-        .bad {
-            background-color: red;
-        }
-        .score_box{
-            background-color: coral;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            margin-top: 20px;
 
+        .fail {
+            color: red;
         }
-        .score_box > score {
-            margin-right: auto;
+        .count {
+            width:230px;
+            margin: 30px auto;
+
+            font-size: 30px;
         }
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-        crossorigin="anonymous"></script>
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
             integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-    crossorigin="anonymous"></script>
+            crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
             integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
-    crossorigin="anonymous"></script>
+            crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
             integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
-
     <script>
         $(document).ready(function () {
-            show_goal();
+            listing();
         });
 
-        function show_goal() {
+        function listing() {
             $.ajax({
-                type: "GET",
-                url: "/api/result",
+                type: 'GET',
+                url: '/api/result',
                 data: {},
                 success: function (response) {
                     let test1 = 0
                     let test2 = 0
+
                     let rows = response['result']
                     for (let i = 0; i < rows.length; i++) {
-                       // let id = rows[i]['id']
                         let title = rows[i]['title']
-                        let goal_num = rows[i]['goal_num']
-                        let goal_set = rows[i]['goal_set']
-                        let result_num = rows[i]['result_num']
-                        let result_set = rows[i]['result_set']
+                        let goalNum = rows[i]['goal_num']
+                        let goalSet = rows[i]['goal_set']
+                        let resultNum = rows[i]['result_num']
+                        let resultSet = rows[i]['result_set']
 
-                        let temp_html= ``
-                        if (goal_num * goal_set <= result_num * result_set) {
-                            test1= test1+1
-                            temp_html = `<tr class = "card">
-                                            <li class="win">
-                                                <h3>${title}</h3>
-                                                <h3>${goal_num}</h3>
-                                                <h3>${goal_set}</h3>
-                                                <h3 style = "color:orange;">${result_num}</h3>
-                                                <h3 style = "color:orange;">${result_set}</h3>
-                                                <button type="button" class="btn btn-outline-primary">성취</button>
-                                            </li>
-                                         </tr>`
-                            //버튼 말고 클래스 지정해서 둥글게 깎고 색을 넣어줘야할까
+                        let temp_html = ``
+                        if (goalNum * goalSet <= resultNum * resultSet) {
+                            test1 += 1
+                            temp_html = `<tr>
+                                            <td>${title}</td>
+                                            <td>${goalNum}</td>
+                                            <td>${goalSet}</td>
+                                            <td>${resultNum}</td>
+                                            <td>${resultSet}</td>
+                                            <td><p>성취</p></td>
+                                        </tr>`
                         } else {
-                            test2= test2+1
-                            temp_html = `<div class = "card">
-                                            <li class="lose">
-                                                <h3>${title}</h3>
-                                                <h3>${goal_num}</h3>
-                                                <h3>${goal_set}</h3>
-                                                <h3 style = "color:orange;">${result_num}</h3>
-                                                <h3 style = "color:orange;">${result_set}</h3>
-                                                <button type="button" class="btn btn-outline-primary">실패</button>
-                                            </li>
-                                         </div>`
+                            test2 += 1
+                            temp_html = `<tr>
+                                            <td>${title}</td>
+                                            <td>${goalNum}</td>
+                                            <td>${goalSet}</td>
+                                            <td>${resultNum}</td>
+                                            <td>${resultSet}</td>
+                                            <td><p class="fail">실패</p></td>
+                                        </tr>`
                         }
-                        $('#box').append(temp_html)
+                        $('#body').prepend(temp_html)
+
+
                     }
-                    // 로딩 다 되고서 나오게할수없나..
-                    $('#good_box').append(test1)
-                    $('#bad_box').append(test2)
-                    if (test1 >= test2) {
-                        alert("참 잘했어요")
-                    } else {
-                        alert("분발하세요!")
-                    }
+                    let temp_html2 = `
+                                        <p className="count_success">성공: ${test1} &nbsp&nbsp&nbsp&nbsp
+                                        <span class="fail">실패: ${test2}</span></p>
+                                    `
+                    $('#count').append(temp_html2)
+
                 }
-            });
+            })
         }
     </script>
+</head>
 <body>
 
 
 <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 
-        <a href="#"
+        <a href="http://localhost:5000/"
            class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
 
             홈으로
@@ -161,10 +146,10 @@
         </a>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-dark">운동 목표 설정</a></li>
-            <li><a href="/templates/action.html" class="nav-link px-2 link-dark">운동 결과 입력</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">성적표</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">구씨네</a></li>
+            <li><a href="http://localhost:5000/main" class="nav-link px-2 link-dark">운동 목표 설정</a></li>
+            <li><a href="http://localhost:5000/action" class="nav-link px-2 link-dark">운동 결과 입력</a></li>
+            <li><a href="http://localhost:5000/result" class="nav-link px-2 link-dark">성적표</a></li>
+            <li><a href="http://localhost:5000/video" class="nav-link px-2 link-dark">구씨네</a></li>
         </ul>
 
         <div class="col-md-3 text-end">
@@ -173,14 +158,15 @@
         </div>
     </header>
 </div>
-<div class="mypic">
-    <h1>운동 성적표</h1>
-</div>
+
+
+<h1>운동 성적표</h1>
+
+
 <hr>
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">#</th>
         <th scope="col">운동 종류</th>
         <th scope="col">목표 횟수</th>
         <th scope="col">목표 세트수</th>
@@ -188,27 +174,18 @@
         <th scope="col">실제 세트수</th>
     </tr>
     </thead>
+    <!--  성공 실패 유뮤 보여 주는 곳  -->
     <tbody id="body">
+
     </tbody>
 </table>
 
-<div class="card-box" id="box">
+<div class="count" id="count">
+
 </div>
 
-<div class="score_box">
-    <div class ="good" id="good_box">
-    </div>
-
-    <div class ="score" id="good_score">
-        <p>성공</p>
-    </div>
-
-    <div class ="bad" id="bad_box">
-    </div>
-
-    <div class ="score" id="bad_score">
-        <p>실패</p>
-    </div>
-</div>
 
 </body>
+
+
+</html>
