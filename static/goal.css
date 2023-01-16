@@ -1,0 +1,40 @@
+@charset "utf-8";
+
+
+        * {
+            font-family: 'Poor Story', cursive;
+        }
+
+        h1 {
+
+            width: 300px;
+            margin: 30px auto 0px;
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .input {
+
+
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+
+        }
+
+        .input div {
+            margin: 0px 3rem 4rem;
+
+
+        }
+
+        .container {
+            font-weight: bold;
+        }
+        .input > div >button{
+            margin-top: 46.625px;
+        }

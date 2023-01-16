@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>운동 결과 입력</title>
+    <script>
+        $(document).ready(function () {
+            show_result();
+        });
+
+        function save_result() {
+            let day = $('#day').val()
+            let title = $('#title').val()
+            let result_num = $('#result_num').val()
+            let result_set = $('#result_set').val()
+
+            $.ajax({
+                type: "POST",
+                url: "/result/show",
+                data: {day_give:day,title_give: title, result_num_give: result_num, result_set_give: result_set},
+                success: function (response) {
+                    let check = response['goal_check']
+                    if(check==1){
+                        alert("입력 완료")
+                        window.location.reload()
+                    }else if(check==0){
+                        alert("해당하는 요일과 운동명이 없습니다.")
+                    }
+                }
+            });
+        }
+
+        function show_result() {
+            $.ajax({
+                type: "GET",
+                url: "/result/show",
+                data: {},
+                success: function (response) {
+                    let rows = response['results']
+                    for (let i = 0; i < rows.length; i++) {
+                        let num = rows[i]['num']
+                        let title = rows[i]['title']
+                        let result_num = rows[i]['result_num']
+                        let result_set = rows[i]['result_set']
+                        let temp_html = ``
+                        if (result_num > 0) {
+                            if (title == 'squat') {
+                                temp_html = `<li>
+                                            스쿼트  ${result_num}회 ${result_set}세트
+                                            <button onClick="delete_result(${num})" type="button" >삭제</button>
+                                <!--        <button onClick="update_bucket(${num})" type="button" >수정</button>-->
+                                        </li>   `
+                            } else if (title == 'lunge') {
+                                temp_html = `<li>
+                                            런지  ${result_num}회 ${result_set}세트
+                                            <button onClick="delete_goal(${num})" type="button" >삭제</button>
+                                <!--        <button onClick="update_bucket(${num})" type="button" >수정</button>-->
+                                        </li>   `
+                            } else if (title == 'pull') {
+                                temp_html = `<li>
+                                            풀업  ${result_num}회 ${result_set}세트
+                                            <button onClick="delete_goal(${num})" type="button" >삭제</button>
+                                <!--        <button onClick="update_bucket(${num})" type="button" >수정</button>-->
+                                        </li>   `
+                            } else if (title == 'push') {
+                                temp_html = `<li>
+                                            푸쉬업  ${result_num}회 ${result_set}세트
+                                            <button onClick="delete_goal(${num})" type="button" >삭제</button>
+                                <!--        <button onClick="update_bucket(${num})" type="button" >수정</button>-->
+                                        </li>   `
+                            } else {
+                                temp_html = `<li>
+                                            윗몸 일으키기  ${result_num}회 ${result_set}세트
+                                            <button onClick="delete_goal(${num})" type="button" >삭제</button>
+                                <!--        <button onClick="update_bucket(${num})" type="button" >수정</button>-->
+                                        </li>   `
+                            }
+                        }
+
+                        $('#goal_list').append(temp_html)
+                    }
+                }
+            });
+        }
+
+        function delete_result(num) {
+            $.ajax({
+                type: "POST",
+                url: "/goal/delete",
+                data: {num_give: num},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+<h1>운동 결과 입력</h1>
+<div class="input_result">
+    <select id="day">
+        <option value="mon">월요일</option>
+        <option value="tue">화요일</option>
+        <option value="wed">수요일</option>
+        <option value="thu">목요일</option>
+        <option value="fri">금요일</option>
+        <option value="sat">토요일</option>
+        <option value="son">월요일</option>
+    </select>
+    <select id="title">
+        <option value="squat">스쿼트</option>
+        <option value="lunge">런지</option>
+        <option value="pull">풀업</option>
+        <option value="push">푸쉬업</option>
+        <option value="sit">윗몸 일으키기</option>
+    </select>
+
+    <input type="number" id="result_num"/> 회
+    <input type="number" id="result_set"/> 세트
+    <button onclick="save_result()"> 등록</button>
+</div>
+<div class="post_goal" id="goal_list">
+</div>
+</body>
+</html>
